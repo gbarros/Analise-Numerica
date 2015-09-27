@@ -5,6 +5,7 @@
 #include "gauss.h"
 
 
+char Vetor[] = "X";
 double A1[][3] = {{1,2,-1},{2,1,-2},{-3,1,1}};
 int a_size = 3;
 double bA1[3] = {3,3,-6};
@@ -20,85 +21,103 @@ void copiaM(int size,double ** d,double s[size][size]){
 		for(j=0;j<size;j++){
 			d[i][j] = s[i][j];
 		}
-
 }
 void copiaV(int size,double * d,double s[size]){
 	int i;
 	for(i=0;i<size;i++)
 			d[i] = s[i];
 }
+void printM (int m, int n, double** A,char * name){
+	int i=0,j=0;
+
+	puts("-----");
+	printf("Matriz %s:\n",name );
+	for (i=0; i<n;i++){
+		for (j=0; j<n;j++){
+			printf("%.3g\t",A[i][j]);
+
+		}
+        puts("");
+	}
+	puts("-----"); 
+}
+void printV(int size, double* x,char* name){
+	int i;
+	if(name == NULL){
+		name = Vetor;
+	}
+	puts("-----");
+	printf("Vetor %s:\n",name );
+	for(i=0;i<size;i++)
+		printf("[%d]:%g \n",i,x[i]);	
+	puts("-----");
+}
 int main(){
 	int i,j,n=3;
-	double **P,** B, ** A = mat_cria(3,3);
-	double *bA, *bB;
+	double **P,** B, ** A;
+	double *bA, *bB, *x;
 
     /*---------------------------------------
 				RESOLVE A
     ---------------------------------------*/
-    copiaM(3,A,A1);
+	puts("========RESOLVE A=======");
 
+	//SETUP
+	A = mat_cria(3,3);
     bA = malloc(sizeof(double)*3);
+    copiaM(3,A,A1);
     copiaV(3,bA,bA1);
 
-    printf("Areas de Mem Usadas A:%p_ A1:%p ",A,A1);
+    // Vizualiza Dados
+	printM(3,3,A,"A");
+	printV(3,bA,"b");
 
-	teste_imprimi (3,3,A);
-
-	printf("_LINHA:%d\n",__LINE__ );
 
 	P = fatoracao(3, A);
 
-	printf("_LINHA:%d\n",__LINE__ );
+	printM(3,3,A,"LU");
 
-	teste_imprimi (3,3,A);
+	x = substituicao(3, A, P, bA);
 
-	printf("_LINHA:%d\n",__LINE__ );
+	printV(3,x,"Solução de A");
 
-	substituicao(3, A, P, bA);
-
-	printf("_LINHA:%d\n",__LINE__ );
 
 	/*LIMPA*/
 	mat_libera(3,A);
 	mat_libera(3,P);
 	free(bA);
-	
-	printf("_LINHA:%d\n",__LINE__ );
+	free(x);
+
 
 	/*---------------------------------------
 				RESOLVE B
     ---------------------------------------*/
+	puts("========RESOLVE B=======");
+	//SETUP				
 	B = mat_cria(6,6);
-	printf("_LINHA:%d\n",__LINE__ );
-
-	copiaM(6,B,B1);
-
-	printf("_LINHA:%d\n",__LINE__ );
-
 	bB = malloc(sizeof(double)*6);
-	
-	printf("_LINHA:%d\n",__LINE__ );
-
+	copiaM(6,B,B1);
     copiaV(6,bB,bB1);
 
-    printf("Areas de Mem Usadas B:%p_ B1:%p ",B,B1);
-
-	teste_imprimi (6,6,B);
-
-	printf("_LINHA:%d\n",__LINE__ );
+    // Vizualiza Dados
+	printM(6,6,B,"B");
+	printV(6,bB,"b");
 
 	P = fatoracao(6, B);
 
-	printf("_LINHA:%d\n",__LINE__ );
-
-	teste_imprimi (6,6,B);
-
-	printf("_LINHA:%d\n",__LINE__ );
-
-	substituicao(6, B, P, bB);
+	printM(6,6,B,"LU");
 
 
-	printf("_LINHA:%d\n",__LINE__ );
+	x = substituicao(6, B, P, bB);
+
+
+	printV(6,x,"Solução de B");
+
+	/*LIMPA*/
+	mat_libera(3,B);
+	mat_libera(3,P);
+	free(bB);
+	free(x);
 
 	return 0;
 }

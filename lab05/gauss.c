@@ -1,11 +1,14 @@
 
 #include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 #include "matriz.h"
 #include "gauss.h"
-#include <stdlib.h>
 
 //void troca
-void swap(int* a, int *b){
+void swap(double**x,double**y){
+int *a = (int *)x,
+	*b = (int *)y;
  *a ^= *b;
  *b ^= *a;
  *a ^= *b;
@@ -36,7 +39,7 @@ double ** fatoracao(int n, double** A){
 	double ** P = mat_cria(n,n);
 	double fator;
 	int i,j,k, pivot;
-	puts("___fatoração___\n\n");
+	// puts("___fatoração___\n\n");
 
 	/*  PRODUZ IDENTIDADE P */
 	for(i=0;i<n;i++){
@@ -48,7 +51,6 @@ double ** fatoracao(int n, double** A){
 	/*  FATORA L U */
 	//processar cada coluna
 	for(j=0;j<n;j++){
-		 //printf("_LINHA:%d\n",__LINE__ );
 
 		/* PIVOTAMENTO */
 		pivot = i_max(j,n,j,A);
@@ -60,41 +62,32 @@ double ** fatoracao(int n, double** A){
 		/* HOW: processa cada elemento da coluna; e
 		atualiza valores da mesma linha que o elemento processado */
 		for(i=j+1;i<n;i++){
-			//printf("+_LINHA:%d\n",__LINE__ );
-			//printf("Aij:%g  ",A[0][0] );
-			//printf("Ajj:%g\n",A[j][j] );
+
 			fator = A[i][j]/A[j][j];
 			//parte onde atualizamos toda linha processada
 			for(k=j;k<n;k++){
-				//printf("i:%d j:%d k:%d A[i][k]:%g fator:%g A[j][k]:%g mul:%g\n",i,j,k,A[i][k],fator,A[j][k],fator * A[j][k] );
-				A[i][k] -= fator * A[j][k];
-				
 
+				A[i][k] -= fator * A[j][k];
 			}
 			A[i][j] = fator;
 		}
 	}
-	puts("Final P\n\n");
 
-	teste_imprimi(n,n,P);
+	// puts("fim da fatoração \n\n");
 
-	puts("fim da fatoração \n\n");
 	return P;
 } 
 
 double * substituicao(int n, double ** A, double** P, double * b){
 	double soma,*x,*y = malloc(sizeof(double)*n);
 	int i,j,k;
-	puts("___subtituição___\n\n");
+	// puts("___subtituição___\n\n");
 
-	// for(i=0;i<n;i++)
-	// 	printf("[%d]:%g ",i,b[i]);	
-	// puts(" __");
 
-	//swap((void*)&y,(void*)&b);
 	/*---------------------------------------------
 			Encontra Y
 	---------------------------------------------*/
+
 	/*ZERA Y*/
 	for(i=0;i<n;i++)
 		y[i]=0;		
@@ -103,15 +96,12 @@ double * substituicao(int n, double ** A, double** P, double * b){
 		soma = 0;
 		for(j=0;j<=i;j++){
 			if(i==j){
-				y[i]= vet_mul(n,P[i],b) - soma; // vet_mul(n,P[i],b) = b[i] onde b[i] estah arrumado
+				y[i]= vet_mul(n,P[i],b) - soma; 
+				//vet_mul(n,P[i],b) = b[i] onde b[i] estah arrumado
 			}
 			soma += A[i][j]*y[j];
 		}
 	}
-	puts("Y:");
-	for(i=0;i<n;i++)
-		printf("[%d]:%g ",i,y[i]);	
-	puts("");
 
 	/*---------------------------------------------
 			Calcula X
@@ -131,12 +121,7 @@ double * substituicao(int n, double ** A, double** P, double * b){
 		}
 	}
 
-	puts("x:");
-	for(i=0;i<n;i++)
-		printf("[%d]:%g ",i,x[i]);	
-	puts("");
-
 	free(y);
-	puts("fim da substituicao \n\n");
+	// puts("__fim da substituicao__ \n\n");
 	return x;
 }

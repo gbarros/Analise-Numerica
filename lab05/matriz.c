@@ -80,22 +80,3 @@ void mat_multm(int m, int n,int q, double** A, double** B, double** C)
     }
         
 }
-void teste_imprimi (int m, int n, double** A)
-{
-	int i=0,j=0;
-	printf ("\n\tMATRIZ : A[0][0]:%g\n",A[0][0]);
-
-	for (i=0; i<n;i++)
-	{
-		for (j=0; j<n;j++)
-		{
-			printf("%g ",A[i][j]);
-
-		}
-        puts("");
-
-	}
-
-		printf ("\n\n\n\n\n");
-
-}
