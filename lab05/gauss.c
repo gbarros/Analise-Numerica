@@ -18,26 +18,47 @@ double vet_mul(int size, double* a, double* b){
 	}
 	return soma;
 }
+int i_max(int start, int stop,int pos, double **a){
+	int max = fabs(a[start][pos]);
+	int i_max = start;
+	start ++;
+	while(start<stop){
+		if(fabs(a[start][pos]) > max){
+			max = fabs(a[start][pos]);
+			i_max = start;
+		} 
+		start++;
+	}
+	return i_max;
+}
 double ** fatoracao(int n, double** A){
 
 	double ** P = mat_cria(n,n);
 	double fator;
-	int i,j,k;
+	int i,j,k, pivot;
 	puts("___fatoração___\n\n");
 
-	/*  PRODUZ IDENTIDADE */
+	/*  PRODUZ IDENTIDADE P */
 	for(i=0;i<n;i++){
 		for(j=0;j<n;j++)
 			P[i][j] = 0;
 		P[i][i] = 1;
 	}
+
 	/*  FATORA L U */
 	//processar cada coluna
 	for(j=0;j<n;j++){
 		 //printf("_LINHA:%d\n",__LINE__ );
 
-		//processar cada elemento da coluna; e
-		//atualizar valores da mesma linha que o elemento processado
+		/* PIVOTAMENTO */
+		pivot = i_max(j,n,j,A);
+		if(pivot!=j){
+			swap(&A[pivot],&A[j]);
+			swap(&P[pivot],&P[j]);
+		}
+
+		/* HOW: processa cada elemento da coluna; e
+		atualiza valores da mesma linha que o elemento processado */
 		for(i=j+1;i<n;i++){
 			//printf("+_LINHA:%d\n",__LINE__ );
 			//printf("Aij:%g  ",A[0][0] );
@@ -53,6 +74,10 @@ double ** fatoracao(int n, double** A){
 			A[i][j] = fator;
 		}
 	}
+	puts("Final P\n\n");
+
+	teste_imprimi(n,n,P);
+
 	puts("fim da fatoração \n\n");
 	return P;
 } 
