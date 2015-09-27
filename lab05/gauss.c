@@ -10,6 +10,14 @@ void swap(int* a, int *b){
  *b ^= *a;
  *a ^= *b;
 }
+double vet_mul(int size, double* a, double* b){
+	double soma = 0;
+	int i;
+	for (i=0;i<size;i++){
+		soma += a[i]*b[i];
+	}
+	return soma;
+}
 double ** fatoracao(int n, double** A){
 
 	double ** P = mat_cria(n,n);
@@ -57,9 +65,6 @@ double * substituicao(int n, double ** A, double** P, double * b){
 	// for(i=0;i<n;i++)
 	// 	printf("[%d]:%g ",i,b[i]);	
 	// puts(" __");
-	/*---------------------------------------------
-			Atualiza b; b = Pb
-	---------------------------------------------*/
 
 	//swap((void*)&y,(void*)&b);
 	/*---------------------------------------------
@@ -73,7 +78,7 @@ double * substituicao(int n, double ** A, double** P, double * b){
 		soma = 0;
 		for(j=0;j<=i;j++){
 			if(i==j){
-				y[i]= b[i] - soma;
+				y[i]= vet_mul(n,P[i],b) - soma; // vet_mul(n,P[i],b) = b[i] onde b[i] estah arrumado
 			}
 			soma += A[i][j]*y[j];
 		}

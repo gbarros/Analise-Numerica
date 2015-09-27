@@ -56,16 +56,30 @@ int main(){
 
 	substituicao(3, A, P, bA);
 
-
 	printf("_LINHA:%d\n",__LINE__ );
 
+	/*LIMPA*/
 	mat_libera(3,A);
+	mat_libera(3,P);
+	free(bA);
+	
+	printf("_LINHA:%d\n",__LINE__ );
+
 	/*---------------------------------------
 				RESOLVE B
     ---------------------------------------*/
 	B = mat_cria(6,6);
+	printf("_LINHA:%d\n",__LINE__ );
 
 	copiaM(6,B,B1);
+
+	printf("_LINHA:%d\n",__LINE__ );
+
+	bB = malloc(sizeof(double)*6);
+	
+	printf("_LINHA:%d\n",__LINE__ );
+
+    copiaV(6,bB,bB1);
 
     printf("Areas de Mem Usadas B:%p_ B1:%p ",B,B1);
 
@@ -73,7 +87,7 @@ int main(){
 
 	printf("_LINHA:%d\n",__LINE__ );
 
-	fatoracao(6, B);
+	P = fatoracao(6, B);
 
 	printf("_LINHA:%d\n",__LINE__ );
 
@@ -81,7 +95,10 @@ int main(){
 
 	printf("_LINHA:%d\n",__LINE__ );
 
+	substituicao(6, B, P, bB);
 
+
+	printf("_LINHA:%d\n",__LINE__ );
 
 	return 0;
 }
