@@ -40,12 +40,12 @@ int fat(int n){
 	return n*fat(n-1);
 }
 
-double calcErroChebyshev(int n, int menor, int maior, double varlor){
+double calcErroChebyshev(int n, double menor, double maior, double valor){
 	double temp;
 	temp = (maior - menor)/2;
 	temp = pow(temp, n) / pow(2, n-1);
-	
-
+	temp = temp * ( valor/fat(n) );
+	return temp;
 }
 
 
@@ -54,27 +54,45 @@ int main(){
 	Sample *test = Chebyshev(6,0.0,M_PI/2,cos);
 	double *denominadores = LagrangeCompute(test);
 	double *valoresTeste = criaValordeTeste(6,0.0,M_PI/2);
-	double *coeficientes = NewtonCompute(test);;
+	double *coeficientes = NewtonCompute(test);
+	double  temp,temp2,temp3;
 	int i; 
 
 
-	print_sample(test);
+	// print_sample(test);
 
-	puts("");
+	// puts("");
+	// for (i = 0; i < test->n; i++){
+	// 	printf("den[%d]: %g  ",i,denominadores[i]);
+	// }
+	// puts("");
+	// for (i = 0; i < test->n; i++){
+	// 	printf("coeficientes[%d]: %g  ",i,coeficientes[i]);
+	// }
+
+	puts("\n\n Analise dos resultados de Lagrange\n");
+
 	for (i = 0; i < test->n; i++){
-		printf("den[%d]: %g  ",i,denominadores[i]);
+		temp = LagrangeEval(test, denominadores, valoresTeste[i]);
+		temp2 = cos(valoresTeste[i]);
+		temp3 = calcErroChebyshev(6,0.0, M_PI/2, temp);
+		puts("_____________");
+		printf("\nF_real(%g): %g\nLagrange: %g \nErro esperado: %g %%erro: %g%% \n", valoresTeste[i],temp2, temp, temp3, 100*fabs(temp-temp2)/temp3 );
 	}
-	puts("");
+	puts("_____________");
+
+	puts("\n\n Analise dos resultados de Newton\n");
+
 	for (i = 0; i < test->n; i++){
-		printf("coeficientes[%d]: %g  ",i,coeficientes[i]);
+		temp = NewtonEval(test, coeficientes, valoresTeste[i]);
+		temp2 = cos(valoresTeste[i]);
+		temp3 = calcErroChebyshev(6,0.0, M_PI/2, temp);
+		puts("_____________");
+		printf("\nF_real(%g): %g\nNewton: %g \nErro esperado: %g %%erro: %g%% \n", valoresTeste[i],temp2, temp, temp3, 100*fabs(temp-temp2)/temp3 );
 	}
+	puts("_____________");
 
-	puts("\n\n");
-
-
-	for (i = 0; i < test->n; i++){
-		printf("ValorX: %g  \tY_real: %g\tY_Newton: %g\n", valoresTeste[i],cos(valoresTeste[i]), NewtonEval(test, coeficientes, valoresTeste[i]) );
-	}
+	puts("\n\n\n Como nenhum %erro supera 100% podemos concluir que está dentro do esperado.");
 
  //LagrangeEval(test, denominadores, valoresTeste[i])
 	return 0;
