@@ -53,11 +53,53 @@ double * LagrangeCompute (Sample * s){
 
 double LagrangeEval(Sample* s, double* den, double x){
 
+	double numerador = 1, resposta=0,
+	*X, *Y;
+	int i,j;
+	X =s->x ;
+	Y =s->y ;
 
-	return 0;
+	for (i=0;i<s->n;i++){
+		
+		for(j=0;j<s->n;j++){
+			if( i != j)
+				numerador = numerador * (x-X[j]);
+		}
+		//Divide o numerador calculado pelo den[i]
+		//Multiplica tal valor por Y[i]  e salva no resposta
+		numerador = (numerador/den[i])*Y[i];
+		resposta += numerador;
+		numerador = 1;
+	}
+	return resposta;
 }
 
 double* NewtonCompute(Sample *s){
+
+	double * resposta = (double*) malloc(sizeof(double)* s->n);
+	double ** f = (double**) malloc(sizeof(double)* s->n);
+	char ** setF = (char**) malloc(sizeof(char)* s->n);
+	double *X, *Y;
+	int i, j;
+
+
+	for ( i = 0; i < s->n; i++){
+		f[i] = (double*) malloc(sizeof(double)* s->n);
+		setF[i] = (char**) malloc(sizeof(char)* s->n);
+	}
+
+	X =s->x ;
+	Y =s->y ;
+
+	for ( i = 0; i < s->size; i++){
+
+		for ( j = 0; j < i; j++){
+			if(i==j)
+				resposta[i] = Y[i];
+
+		}
+
+	}
 
 	return NULL;
 
