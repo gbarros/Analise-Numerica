@@ -105,26 +105,42 @@ double* NewtonCompute(Sample *s){
 
 	/*Cria e seta espacos da programacao dinamica*/
 	for ( i = 0; i < s->n; i++){
+
 		f[i] = (double*) malloc(sizeof(double)* s->n);
-		setF[i] = (char**) malloc(sizeof(char)* s->n);
-		for (j = 0; i < s->n; j++){
-			setF[j] = 0;
+		setF[i] = (char*) malloc(sizeof(char)* s->n);
+
+		for (j = 0; j < s->n; j++){
+			setF[i][j] = 0;
 		}
 	}
 
 	X =s->x ;
 	Y =s->y ;
 
-	for ( i = 0; i < s->size; i++){
+	for ( i = 0; i < s->n; i++){
 
 		resposta[i] = f_calc(f, setF, s, 0, i);
 	}
 
-	return NULL;
+	return resposta;
 
 }
 
 double NewtonEval (Sample *s, double * coef, double x){
+	int size = s->n;
+	int i,j;
+	double resposta = coef[0], fator;
 
-	return 0;
+	for (i = 1; i < size; i++){
+		
+		fator = coef[i]; 
+		
+		for(j = 0; j < i ; j++){
+
+			fator *= (x  - ( s->x[j] ) );
+		}
+		
+		resposta += fator;
+	}
+	return resposta;
 }
