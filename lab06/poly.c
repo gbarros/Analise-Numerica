@@ -74,6 +74,27 @@ double LagrangeEval(Sample* s, double* den, double x){
 	return resposta;
 }
 
+/* programacao dinamica para resolver em menos passos*/
+double f_calc(double** f, char** setF, Sample* s, int inicio, int fim){
+ 	double partA, partB;
+	if(inicio == fim )
+		return s->y[inicio];
+
+	if(setF[inicio][fim] == 1)
+		return f[inicio][fim];
+	partA = f_calc(f, setF, s, inicio+1, fim);
+	partB = f_calc(f, setF, s, inicio, fim-1);
+
+	partA -= partB;
+	partA = partA/ (s->x[fim] - s->x[inicio]);
+
+	setF[inicio][fim] = 1;
+	f[inicio][fim] = partA;
+	return partA;
+
+
+}
+
 double* NewtonCompute(Sample *s){
 
 	double * resposta = (double*) malloc(sizeof(double)* s->n);
@@ -82,10 +103,13 @@ double* NewtonCompute(Sample *s){
 	double *X, *Y;
 	int i, j;
 
-
+	/*Cria e seta espacos da programacao dinamica*/
 	for ( i = 0; i < s->n; i++){
 		f[i] = (double*) malloc(sizeof(double)* s->n);
 		setF[i] = (char**) malloc(sizeof(char)* s->n);
+		for (j = 0; i < s->n; j++){
+			setF[j] = 0;
+		}
 	}
 
 	X =s->x ;
@@ -93,12 +117,7 @@ double* NewtonCompute(Sample *s){
 
 	for ( i = 0; i < s->size; i++){
 
-		for ( j = 0; j < i; j++){
-			if(i==j)
-				resposta[i] = Y[i];
-
-		}
-
+		resposta[i] = f_calc(f, setF, s, 0, i);
 	}
 
 	return NULL;
