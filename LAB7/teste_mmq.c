@@ -48,13 +48,14 @@ do vetor 'b' para o problema proposto, isto é,
  b[i] = log(amostra[t]) + log(t); i =t-1  
 \************************************/
 
-void log_v(int size, double* amostra, double*b){
+double * log_v(int size, double* amostra){
 
-	b = (double*) malloc( sizeof(double)*size);
+	double *b = (double*) malloc( sizeof(double)*size);
 
 	for (int i = 0; i < size; i++){
 		b[i] = log(amostra	[i]) - log(i+1);
 	}
+	return b;
 
 }
 void am_mat(int m,double ** A ){
@@ -83,15 +84,15 @@ int main(){
 	mat_libera(4,A);
 
 /******************************/
-	log_v(8,amostra,log_vetorb );
+	puts("\n\nSegunda Parte\n");
+	log_vetorb = log_v(8,amostra);
 	A = mat_cria(8,2);
 	am_mat(8,A);
 	printM(8,2,A,"A");
+	printV(8,amostra,"amostra");
 
-	puts("coisa");
 	x = mmq ( 8, 2, A, log_vetorb);
-	puts("aaaaa");
-	//n_residuo = norma2 (8, 2, A, log_vetorb, x);
+	n_residuo = norma2 (8, 2, A, log_vetorb, x);
 	printf(" A norma 2 do residuo é:%g\n",n_residuo);
 
 

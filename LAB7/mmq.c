@@ -32,13 +32,7 @@ double* mmq ( int m, int n, double** A, double* b){
 
 	// passa o gauss 
 
-
-	puts("uhum");
-
 	x = gauss(n,AtA,b);
-
-
-	puts("uhum");
 	
 	// retorna x
 
