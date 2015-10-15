@@ -65,6 +65,19 @@ void am_mat(int m,double ** A ){
 	}
 }
 
+void print_lin(double start, double stop, double inc, double a, double b){
+
+	printf("\n\nimprimindo os pares (ti,ci)\n");
+
+	while (start <= stop){
+
+		printf("(%g,%g)\n",start, (a*start*exp(b*start)));
+		start += inc;
+	}
+	puts("\n");
+
+}
+
 int main(){
 	double ** A, *x, n_residuo;
 	double *log_vetorb = NULL;
@@ -101,6 +114,7 @@ int main(){
 	x[0] = exp(x[0]);
 	printf("a = %g, b = %g\n", x[0],x[1]);
 
+	print_lin(0.0,16.0,0.1,x[0],x[1]);
 
 
 
