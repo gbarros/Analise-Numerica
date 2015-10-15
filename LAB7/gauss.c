@@ -81,7 +81,7 @@ double ** fatoracao(int n, double** A){
 
 double * substituicao(int n, double ** A, double** P, double * b){
 	double soma,*x,*y = malloc(sizeof(double)*n);
-	int i,j,k;
+	int i,j;
 	// puts("___subtituição___\n\n");
 
 
