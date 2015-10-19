@@ -20,7 +20,7 @@ double* gauss(int n, double **A, double *b){
 
 double* mmq ( int m, int n, double** A, double* b){
 
-	double ** AtA,*x;
+	double ** AtA,*x, *Atb;
 	// calcula a transposta
 	double ** At = mat_cria(n,m);
 
@@ -30,14 +30,17 @@ double* mmq ( int m, int n, double** A, double* b){
 	AtA = mat_cria(n,n);
 	mat_multm(n,m,n,At,A,AtA);
 
+	Atb = (double*) malloc(sizeof(double)*n);
+	mat_multv(n,m,At,b,Atb);
 	// passa o gauss 
 
-	x = gauss(n,AtA,b);
+	x = gauss(n,AtA,Atb);
 	
 	// retorna x
 
 	mat_libera(n,At);
 	mat_libera(n,AtA);
+	free(Atb);
 
 
 
