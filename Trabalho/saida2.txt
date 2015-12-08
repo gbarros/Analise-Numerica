@@ -1,0 +1,42 @@
+
+	Metodo gradiente Conjugado com pre condicionador de Sem PreCond , n= 100 
+
+	i = 40 	
+
+	Metodo gradiente Conjugado com pre condicionador de Jacobi , n= 100 
+
+	i = 18 	
+
+	Metodo gradiente Conjugado com pre condicionador de GaussSeidel , n= 100 
+
+	i = 47 	
+
+	Metodo gradiente Conjugado com pre condicionador de SSOR , n= 100 
+
+	i = 47 	
+
+	Metodo gradiente Conjugado com pre condicionador de Sem PreCond , n= 1000 
+
+	i = 131 	
+
+	Metodo gradiente Conjugado com pre condicionador de Jacobi , n= 1000 
+
+	i = 18 	
+
+	Metodo gradiente Conjugado com pre condicionador de GaussSeidel , n= 1000 
+
+	i = 51 	
+
+	Metodo gradiente Conjugado com pre condicionador de SSOR , n= 1000 
+    
+	i = 1000 	
+
+	Metodo gradiente Conjugado com pre condicionador de Sem PreCond , n= 10000 
+
+	i = 418 	
+
+	Metodo gradiente Conjugado com pre condicionador de Jacobi , n= 10000 
+
+	i = 17 	
+
+	Metodo gradiente Conjugado com pre condicionador de GaussSeidel , n= 10000 
